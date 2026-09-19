@@ -1,0 +1,5 @@
+# Driver PostgreSQL usado por `import psycopg2`
+psycopg2-binary>=2.9,<3.0
+
+# Cliente Redis usado por `import redis`
+redis>=5.0,<7.0
