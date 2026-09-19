@@ -2,22 +2,17 @@ import psycopg2
 import redis
 
 # Conectar ao Redis
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+r = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
 # Conectar ao PostgreSQL
 conn = psycopg2.connect(
-    host="localhost",
-    database="redisCache",
-    user="postgres",
-    password="senha123"
+    host="localhost", database="redisCache", user="postgres", password="senha123"
 )
 cursor = conn.cursor()
 
 
-
-
-
 CACHE_TTL = 60
+
 
 def buscar_produto(id_produto):
     chave = f"produto:{id_produto}"
@@ -36,10 +31,7 @@ def buscar_produto(id_produto):
 
         nome, preco = resultado
 
-        r.hset(chave, mapping={
-            "nome": nome,
-            "preco": str(preco)
-        })
+        r.hset(chave, mapping={"nome": nome, "preco": str(preco)})
 
         r.expire(chave, CACHE_TTL)
 
@@ -48,6 +40,7 @@ def buscar_produto(id_produto):
 
     # Exibe resultado
     print(f"Produto: {produto['nome']} - R$ {float(produto['preco']):.2f}")
+
 
 def listar_chaves_produtos():
     print("\nChaves de produtos presentes no Redis:")
@@ -100,5 +93,6 @@ def menu():
 
     cursor.close()
     conn.close()
+
 
 menu()
